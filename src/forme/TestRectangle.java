@@ -4,7 +4,8 @@ public class TestRectangle {
 
     public static void main(String[] args) {
         // créer un rectangle
-        Rectangle rectangle = new Rectangle(2, 4, 2, 3);
+        //Rectangle rectangle = new Rectangle(2, 4, 2, 3);
+        Rectangle rectangle = new Rectangle(2, 4);
         // afficher le rectangle
         FormeUtilitaire.afficheRectangle(rectangle);
         // déplacer le rectangle

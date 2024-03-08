@@ -8,6 +8,7 @@ public class Rectangle {
     public Rectangle(int largeur, int longueur) {
         setLargeur(largeur);
         setLongueur(longueur);
+        this.origine = new Point(0,0);
     }
 
     public Rectangle(int largeur, int longueur, int valX, int valY) {

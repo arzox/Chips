@@ -17,12 +17,11 @@ public class TestEtudiant {
 
         etudiant2.addNote(8.5);
         etudiant2.addNote(10.0);
-        etudiant2.addNote(11.5);
+        //etudiant2.addNote(11.5);
 
 
-        System.out.println(etudiant1);
-        System.out.println(etudiant2);
-
-
+        // Affichage des étudiants
+        EtudiantUtilitaire.afficheEtudiant(etudiant1);
+        EtudiantUtilitaire.afficheEtudiant(etudiant2);
     }
 }

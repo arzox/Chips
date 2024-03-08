@@ -1,9 +1,8 @@
-package universite;
+package tp2;
 
-import java.util.Arrays;
+import universite.EtudiantUtilitaire;
 
-public class Etudiant {
-
+public abstract class Personne {
     /**
      * La classe Etudiant représente la notion d'étudiant (login, nom, prénom
      * et adresse).
@@ -17,16 +16,21 @@ public class Etudiant {
     private String nom;
     private String prenom;
     private String adresse;
-    private int nbNotes = 0;
-    private Groupe groupe;
 
     private double[] notes = new double[5];
 
 
-    public Etudiant(String login, String nom, String prenom) {
+    public Personne(String login, String nom, String prenom) {
         setLogin(login);
         setNom(nom);
         setPrenom(prenom);
+    }
+
+    public Personne(String login, String nom, String prenom, String adresse) {
+        setLogin(login);
+        setNom(nom);
+        setPrenom(prenom);
+        setAdresse(adresse);
     }
 
     public String getLogin() {
@@ -49,26 +53,7 @@ public class Etudiant {
         return adresse;
     }
 
-    public String getMail() {
-        return this.prenom.toLowerCase() + "." + this.nom.toLowerCase() + "@etu.univ-grenoble-alpes.fr";
-    }
-
-    public double[] getNotes() {
-        return notes;
-    }
-
-    public Groupe getGroupe() {
-        return groupe;
-    }
-
-    public void addNote(double note){
-        if(nbNotes < notes.length){
-            notes[nbNotes] = note;
-            nbNotes ++;
-        }else{
-            System.out.println("Il n'y a plus de places");
-        }
-    }
+    public abstract String getMail();
 
     public void setLogin(String login) {
         this.login = login.toLowerCase();
@@ -86,23 +71,17 @@ public class Etudiant {
         this.adresse = adresse;
     }
 
-    public void setGroupe(Groupe groupe) {
-        this.groupe = groupe;
-    }
-
-    public double getMoyenne() {
-        double moyenne = 0;
-        for (double note : notes) {
-            moyenne += note;
-        }
-        return moyenne / nbNotes;
-    }
-
     public boolean existAdresse() {
         return !adresse.isEmpty();
     }
 
-    public boolean existGroupe() {
-        return groupe != null;
+    @Override
+    public String toString() {
+        return  "\n" +
+                "Personne : \n" +
+                "Login : " + getLogin() + '\n' +
+                "Nom Complet: " + getNomComplet() + '\n' +
+                "Adresse : " + getAdresse() + '\n' +
+                "Mail : " + getMail() + '\n';
     }
 }
