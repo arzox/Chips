@@ -3,8 +3,8 @@ package jeu;
 import java.util.ArrayList;
 
 public class Carreau {
-    ArrayList<Guerrier> guerriersBleus;
-    ArrayList<Guerrier> guerriersRouges;
+    ArrayList<Guerrier> guerriersBleus = new ArrayList<>();
+    ArrayList<Guerrier> guerriersRouges = new ArrayList<>();
     Carreau() {}
 
     public ArrayList<Guerrier> getGuerriersBleus() {
@@ -42,12 +42,37 @@ public class Carreau {
         return getGuerriersBleus().isEmpty();
     }
 
+    public boolean estBleu() {
+        return getGuerriersRouges().isEmpty();
+    }
+
     public boolean estChampDeBataille() {
         return !getGuerriersBleus().isEmpty() && !getGuerriersRouges().isEmpty();
     }
 
     public void lanceCombat() {
-        return;
-    }
+        while(!getGuerriersBleus().isEmpty() && !getGuerriersRouges().isEmpty()) {
+            // Attaque des Rouges
+            for (Guerrier guerrier : getGuerriersRouges()) {
+                guerrier.attaque(getGuerriersBleus().get(0));
+                if (!getGuerriersBleus().get(0).estVivant()) {
+                    supprimerGuerrier(getGuerriersBleus().get(0));
+                    if (getGuerriersBleus().isEmpty()) {
+                        break;
+                    }
+                }
+            }
 
+            // Attaque des Bleus
+            for (Guerrier guerrier : getGuerriersBleus()) {
+                guerrier.attaque(getGuerriersRouges().get(0));
+                if (!getGuerriersRouges().get(0).estVivant()) {
+                    supprimerGuerrier(getGuerriersRouges().get(0));
+                    if (getGuerriersRouges().isEmpty()) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }

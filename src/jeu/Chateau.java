@@ -2,22 +2,31 @@ package jeu;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 public class Chateau {
-    int RESSOURCES_INITIAL = 3;
-    int RESSOURCE_AJOUTEE_PAR_TOUR = 1;
-    int ressources;
+    final int RESSOURCES_INITIAL = 3;
+    final int RESSOURCE_AJOUTEE_PAR_TOUR = 1;
+    private int ressources;
     boolean estBleu;
-    LinkedList<Guerrier> guerriers;
+    public String color;
+    LinkedList<Guerrier> guerriers = new LinkedList<>();
     Chateau(boolean estBleu) {
         this.estBleu = estBleu;
         ressources = RESSOURCES_INITIAL;
+        color = estBleu ? "\033[0;34m" : "\033[0;31m";
     }
     public boolean estBleu() {
         return estBleu;
     }
+
+    public int getRessources() {
+        return ressources;
+    }
+
     public void ajoutGuerrierNovice(Guerrier guerrier) {
         guerriers.add(guerrier);
+        guerrier.setChateau(this);
     }
     public LinkedList<Guerrier> getGuerriersNovices() {
         return guerriers;
@@ -25,7 +34,7 @@ public class Chateau {
 
     public ArrayList<Guerrier> entrainer() {
         ArrayList<Guerrier> guerriersEntraines = new ArrayList<>();
-        while(guerriers.getFirst().getRessourcePourEntrainement() <= ressources) {
+        while(!guerriers.isEmpty() && guerriers.getFirst().getRessourcePourEntrainement() <= ressources) {
             ressources -= guerriers.getFirst().getRessourcePourEntrainement();
             guerriersEntraines.add(guerriers.poll());
         }
@@ -34,5 +43,25 @@ public class Chateau {
 
     void incrementerRessources() {
         ressources += RESSOURCE_AJOUTEE_PAR_TOUR;
+    }
+
+    public void ajouterGuerrier() {
+        int choix;
+        Scanner scanner = new Scanner(System.in);
+
+        do {
+            System.out.println("0: Finir le tour | 1: Nain | 2: Elfe | 3: ChefNain | 4: ChefElfe");
+            choix = scanner.nextInt();
+            scanner.nextLine();
+            switch (choix) {
+                case 1 -> ajoutGuerrierNovice(new Fabio());
+                case 2 -> ajoutGuerrierNovice(new Elfe());
+                case 3 -> ajoutGuerrierNovice(new ChefFabio());
+                case 4 -> ajoutGuerrierNovice(new ChefElfe());
+                case 0 -> System.out.println("Fin du tour");
+                default -> System.out.println("Choix invalide");
+            }
+        }
+        while (choix != 0);
     }
 }
