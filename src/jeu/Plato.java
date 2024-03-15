@@ -6,11 +6,21 @@ public class Plato {
     ArrayList<Carreau> carreaux;
     Chateau chateauBleu = new Chateau(true);
     Chateau chateauRouge = new Chateau(false);
+
+    final String resetColor = "\033[0m";
     Plato(int taille) {
         carreaux = new ArrayList<>(taille);
         for (int i = 0; i < taille; i++) {
             carreaux.add(new Carreau());
         }
+    }
+    public void initTour() {
+        System.out.println(chateauBleu.color + "---Chateau bleu : " + chateauBleu.getRessources() + "---" + "\033[0m");
+        chateauBleu.ajouterGuerrier();
+        System.out.println(chateauRouge.color + "---Chateau rouge : " + chateauBleu.getRessources() + "---" + "\033[0m");
+        chateauRouge.ajouterGuerrier();
+        chateauBleu.incrementerRessources();
+        chateauRouge.incrementerRessources();
     }
 
     public void deplaceGuerriers() {
@@ -40,9 +50,22 @@ public class Plato {
     }
 
     public void afficheCarreaux() {
+        int maxTailleRouge = 0;
+        int maxTailleBleu = 0;
+        ArrayList<String> bleu = new ArrayList<>();
+        ArrayList<String> rouge = new ArrayList<>();
         System.out.println("Affichage des carreaux");
         for (Carreau carreau : carreaux) {
-            System.out.println("Bleus: " + carreau.getGuerriersBleus() + " | " + carreau.getGuerriersRouges());
+            bleu.add((chateauBleu.color + carreau.getGuerriersBleus()));
+            rouge.add((chateauRouge.color + carreau.getGuerriersRouges()));
+            maxTailleRouge = Math.max(maxTailleRouge, rouge.get(rouge.size() - 1).length());
+            maxTailleBleu = Math.max(maxTailleBleu, bleu.get(bleu.size() - 1).length());
+        }
+        for (int i = 0; i < carreaux.size(); i++) {
+            int bleuSizeDifferenceMax = maxTailleBleu - bleu.get(i).length();
+            int rougeSizeDifferenceMax = maxTailleRouge - rouge.get(i).length();
+            System.out.println(bleu.get(i) + resetColor + (" ").repeat(bleuSizeDifferenceMax) + " | " +
+                    (" ").repeat(rougeSizeDifferenceMax) + rouge.get(i));
         }
     }
 
@@ -57,12 +80,4 @@ public class Plato {
         return null;
     }
 
-    public void initTour() {
-        System.out.println(chateauBleu.color + "---Chateau bleu :" + chateauBleu.getRessources() + "---" + "\033[0m");
-        chateauBleu.ajouterGuerrier();
-        System.out.println(chateauRouge.color + "---Chateau rouge" + chateauBleu.getRessources() + "---" + "\033[0m");
-        chateauRouge.ajouterGuerrier();
-        chateauBleu.incrementerRessources();
-        chateauRouge.incrementerRessources();
-    }
 }

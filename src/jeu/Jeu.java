@@ -18,7 +18,7 @@ public class Jeu {
 
     private static Plato initPlato() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Entrez la taille du plateau : ");
+        System.out.print("Entrez la taille du plateau : ");
         int size = scanner.nextInt();
         return new Plato(size);
     }
