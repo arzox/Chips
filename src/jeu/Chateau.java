@@ -51,15 +51,21 @@ public class Chateau {
 
         do {
             System.out.println("0: Finir le tour | 1: Nain | 2: Elfe | 3: ChefNain | 4: ChefElfe");
-            choix = scanner.nextInt();
-            scanner.nextLine();
-            switch (choix) {
-                case 1 -> ajoutGuerrierNovice(new Fabio());
-                case 2 -> ajoutGuerrierNovice(new Elfe());
-                case 3 -> ajoutGuerrierNovice(new ChefFabio());
-                case 4 -> ajoutGuerrierNovice(new ChefElfe());
-                case 0 -> System.out.println("Fin du tour");
-                default -> System.out.println("Choix invalide");
+            try {
+                choix = scanner.nextInt();
+                scanner.nextLine();
+                switch (choix) {
+                    case 1 -> ajoutGuerrierNovice(new Fabio());
+                    case 2 -> ajoutGuerrierNovice(new Elfe());
+                    case 3 -> ajoutGuerrierNovice(new ChefFabio());
+                    case 4 -> ajoutGuerrierNovice(new ChefElfe());
+                    case 0 -> System.out.println("Fin du tour");
+                    default -> System.out.println("Choix invalide");
+                }
+            } catch (Exception e) {
+                System.out.println("Veuillez entrer un nombre valide");
+                choix = -1;
+                scanner.nextLine();
             }
         }
         while (choix != 0);

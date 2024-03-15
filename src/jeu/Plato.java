@@ -47,9 +47,11 @@ public class Plato {
     }
 
     public Chateau getWinner() {
-        if (carreaux.get(0).estRouge() && !carreaux.get(0).estBleu()) {
+        boolean isRedOnFirstCarreau = carreaux.get(0).estRouge() && !carreaux.get(0).estBleu();
+        boolean isBlueOnLastCarreau = carreaux.get(carreaux.size() - 1).estBleu() && !carreaux.get(carreaux.size() - 1).estRouge();
+        if (isRedOnFirstCarreau) {
             return carreaux.get(0).getGuerriersRouges().get(0).getChateau();
-        } else if (carreaux.get(carreaux.size() - 1).estBleu() && !carreaux.get(carreaux.size() - 1).estRouge()) {
+        } else if (isBlueOnLastCarreau) {
             return carreaux.get(carreaux.size() - 1).getGuerriersBleus().get(0).getChateau();
         }
         return null;
