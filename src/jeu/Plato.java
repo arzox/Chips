@@ -29,14 +29,17 @@ public class Plato {
             Carreau carreau = carreaux.get(i);
             assert carreau.estChampDeBataille();
             if (carreau.estBleu() || !bleuWaitingList.isEmpty()) {
-                ArrayList<Guerrier> temp = carreau.retirerGuerrierBleu();
-                carreau.setGuerriersBleus(bleuWaitingList);
+                boolean doMoveElfe = i < carreaux.size() - 2 && carreaux.get(i + 2).estRouge() && !carreaux.get(i + 1).estBleu();
+                ArrayList<Guerrier> temp = doMoveElfe ? carreau.retirerGuerrierBleuNain() : carreau.retirerGuerrierBleu();
+                carreau.ajouterGuerriers(bleuWaitingList);
                 bleuWaitingList = temp;
             } else if (carreau.estRouge()) {
-                carreaux.get(i - 1).setGuerriersRouges(carreau.retirerGuerrierRouge());
+                boolean doMoveElfe = i > 0 && carreaux.get(i - 1).estBleu();
+                ArrayList<Guerrier> guerriersRougesToMove = doMoveElfe ? carreau.retirerGuerrierRougeNain() : carreau.retirerGuerrierRouge();
+                carreaux.get(i - 1).setGuerriersRouges(guerriersRougesToMove);
             }
             if (i == carreaux.size() - 1) {
-                carreau.setGuerriersRouges(chateauRouge.entrainer());
+                carreau.ajouterGuerriers(chateauRouge.entrainer());
             }
         }
     }
@@ -45,6 +48,17 @@ public class Plato {
         for (Carreau carreau : carreaux) {
             if (carreau.estChampDeBataille()) {
                 carreau.lanceCombat();
+            }
+        }
+    }
+
+    public void subitFleches() {
+        for (int i = 0; i < carreaux.size(); i++) {
+            Carreau carreau = carreaux.get(i);
+            if (carreau.estBleu() && i < carreaux.size() - 1) {
+                carreaux.get(i + 1).subitFlechesRouge(carreau.getElfeBleu() * Elfe.FORCE * 3);
+            } else if (carreau.estRouge() && i > 0) {
+                carreaux.get(i - 1).subitFlechesBleu(carreau.getElfeRouge() * Elfe.FORCE * 3);
             }
         }
     }
@@ -65,7 +79,7 @@ public class Plato {
             int bleuSizeDifferenceMax = maxTailleBleu - bleu.get(i).length();
             int rougeSizeDifferenceMax = maxTailleRouge - rouge.get(i).length();
             System.out.println(bleu.get(i) + resetColor + (" ").repeat(bleuSizeDifferenceMax) + " | " +
-                    (" ").repeat(rougeSizeDifferenceMax) + rouge.get(i));
+                    (" ").repeat(rougeSizeDifferenceMax) + rouge.get(i) + resetColor);
         }
     }
 
