@@ -33,6 +33,7 @@ public class Chateau {
     }
 
     public ArrayList<Guerrier> entrainer() {
+        // Retire le guerrier de la file d'attente si les ressources sont suffisantes
         ArrayList<Guerrier> guerriersEntraines = new ArrayList<>();
         while(!guerriers.isEmpty() && guerriers.getFirst().getRessourcePourEntrainement() <= ressources) {
             ressources -= guerriers.getFirst().getRessourcePourEntrainement();
