@@ -1,6 +1,7 @@
 package jeu;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Carreau {
     ArrayList<Guerrier> guerriersBleus = new ArrayList<>();
@@ -24,6 +25,14 @@ public class Carreau {
             getGuerriersBleus().add(guerrier);
         } else {
             getGuerriersRouges().add(guerrier);
+        }
+    }
+
+    public void supprimer(Guerrier guerrier) {
+        if (guerrier.estBleu()) {
+            getGuerriersBleus().remove(guerrier);
+        } else {
+            getGuerriersRouges().remove(guerrier);
         }
     }
     public void ajouterGuerriers(ArrayList<Guerrier> guerriers) {
@@ -112,9 +121,15 @@ public class Carreau {
     public void lanceCombat() {
         if (estChampDeBataille()) {
             while (!getGuerriersBleus().isEmpty() && !getGuerriersRouges().isEmpty()) {
+                Iterator<Guerrier> iteratorB = getGuerriersBleus().iterator();
+                Iterator<Guerrier> iteratorR = getGuerriersRouges().iterator();
                 // Attaque des Rouges
-                for (Guerrier guerrier : getGuerriersRouges()) {
-                    guerrier.attaque(getGuerriersBleus().get(0));
+               while (iteratorR.hasNext() && !getGuerriersBleus().isEmpty()) {
+                    try {
+                        iteratorR.next().attaque(getGuerriersBleus().get(0));
+                    } catch (CoupPasDivinException e) {
+                       iteratorR.remove();
+                    }
                     if (!getGuerriersBleus().get(0).estVivant()) {
                         supprimerGuerrier(getGuerriersBleus().get(0));
                         if (getGuerriersBleus().isEmpty()) {
@@ -124,8 +139,12 @@ public class Carreau {
                 }
 
                 // Attaque des Bleus
-                for (Guerrier guerrier : getGuerriersBleus()) {
-                    guerrier.attaque(getGuerriersRouges().get(0));
+                while(iteratorB.hasNext() && !getGuerriersRouges().isEmpty()) {
+                    try {
+                        iteratorB.next().attaque(getGuerriersRouges().get(0));
+                    } catch (CoupPasDivinException e) {
+                        iteratorB.remove();
+                    }
                     if (!getGuerriersRouges().get(0).estVivant()) {
                         supprimerGuerrier(getGuerriersRouges().get(0));
                         if (getGuerriersRouges().isEmpty()) {

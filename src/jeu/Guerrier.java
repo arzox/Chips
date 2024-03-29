@@ -36,8 +36,12 @@ public abstract class Guerrier {
     public boolean estVivant() {
         return health > 0;
     }
-    public void attaque(Guerrier adversaire) {
-        adversaire.subitDegats(GuerrierUtilitaire.de3(getForce()));
+    public void attaque(Guerrier adversaire) throws CoupPasDivinException{
+        int degats = GuerrierUtilitaire.de3(getForce());
+        if (degats < getForce() * 1.5) {
+            throw new CoupPasDivinException();
+        }
+        adversaire.subitDegats(degats);
     }
     public void subitDegats(int degats) {
         setHealth(getHealth() - degats);
